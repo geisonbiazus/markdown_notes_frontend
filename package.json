@@ -17,6 +17,10 @@
   },
   "homepage": "https://github.com/geisonbiazus/markdown_notes_frontend#readme",
   "dependencies": {
-    "jest": "^22.4.3"
+    "babel-core": "^6.26.0",
+    "babel-jest": "^22.4.3",
+    "babel-preset-env": "^1.6.1",
+    "jest": "^22.4.3",
+    "regenerator-runtime": "^0.11.1"
   }
 }
