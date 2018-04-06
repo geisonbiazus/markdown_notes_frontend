@@ -16,30 +16,36 @@ describe('createNote', () => {
 
   let presenter;
 
-  beforeEach(() => {
+  beforeEach((done) => {
     presenter = new NotePresenterSpy();
+    presenter.onPresentNote = () => {
+      done();
+    };
     noteRepository.createdNote = createdNote;
     usecase.createNote(note, presenter);
   });
 
-  test('it creates the note', () => {
+  it('creates the note', () => {
     expect(noteRepository.createNoteArg).toEqual(note);
   });
 
-  test('it presents the result', () => {
-    expect(presenter.presentNoteNoteArg).toEqual(createdNote);
+  it('presents the result', () => {
+    expect(presenter.presentedNote).toEqual(createdNote);
   });
 });
 
 class NoteRepositorySpy {
   create(note) {
     this.createNoteArg = note;
-    return this.createdNote;
+    return new Promise((resolve, reject) => {
+      resolve(this.createdNote);
+    });
   }
 }
 
 class NotePresenterSpy {
   presentNote(note) {
-    this.presentNoteNoteArg = note;
+    this.presentedNote = note;
+    if (this.onPresentNote) this.onPresentNote(note);
   }
 }

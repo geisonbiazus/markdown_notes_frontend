@@ -4,9 +4,9 @@ class NoteUseCase {
   }
 
   createNote(note, presenter) {
-    const createdNote = this.noteRepository.create(note);
-    console.log(createdNote);
-    presenter.presentNote(createdNote);
+    this.noteRepository.create(note).then((createdNote) => {
+      presenter.presentNote(createdNote);
+    });
   }
 }
 
