@@ -6,6 +6,8 @@ class NoteUseCase {
   createNote(note, presenter) {
     this.noteRepository.create(note).then((createdNote) => {
       presenter.presentNote(createdNote);
+    }).catch((error) => {
+      presenter.presentError(error);      
     });
   }
 }
