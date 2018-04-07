@@ -21,31 +21,42 @@ describe('createNote', () => {
     presenter.onPresentNote = () => {
       done();
     };
-    noteRepository.createdNote = createdNote;
+    noteRepository.createNoteResult = createdNote;
     usecase.createNote(note, presenter);
   });
 
   it('creates the note', () => {
-    expect(noteRepository.createNoteArg).toEqual(note);
+    expect(noteRepository.createNoteArgs.note).toEqual(note);
   });
 
-  it('presents the result', () => {
-    expect(presenter.presentedNote).toEqual(createdNote);
+  describe('on success creation', () => {
+    it('presents the result', () => {
+      expect(presenter.presentNoteArgs.note).toEqual(createdNote);
+    });
   });
+
 });
 
 class NoteRepositorySpy {
+  constructor() {
+    this.createNoteArgs = {};
+  }
+
   create(note) {
-    this.createNoteArg = note;
+    this.createNoteArgs.note = note;
     return new Promise((resolve, reject) => {
-      resolve(this.createdNote);
+      resolve(this.createNoteResult);
     });
   }
 }
 
 class NotePresenterSpy {
+  constructor() {
+    this.presentNoteArgs = {};
+  }
+
   presentNote(note) {
-    this.presentedNote = note;
+    this.presentNoteArgs.note = note;
     if (this.onPresentNote) this.onPresentNote(note);
   }
 }
