@@ -13,6 +13,14 @@ class NoteUseCase {
       presenter.presentError(error);
     });
   }
+
+  listNotes(presenter) {
+    this.noteRepository.findAll().then((notes) => {
+      presenter.presentNoteList(notes);
+    }).catch((error) => {
+      presenter.presentError(error);
+    });
+  }
 }
 
 function validateNote(note) {

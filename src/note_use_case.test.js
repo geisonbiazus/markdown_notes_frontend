@@ -54,8 +54,38 @@ describe('createNote', () => {
 
     it("presents the invalid fields and messages", () => {
       expect(presenter.presentValidationArgs.errors).toEqual(validationErrors);
-    })
+    });
   })
+});
+
+describe('listNotes', () => {
+  describe('on success list', () => {
+    const notes = [{id: 1, title: 'title', content: 'content'}];
+
+    beforeEach((done) => {
+      noteRepository.returnSuccessOnFindAll(notes);
+      presenter.onPresentNoteList = () => { done(); };
+      usecase.listNotes(presenter);
+    });
+
+    it('fetchs all notes and presents them', () => {
+      expect(presenter.presentNoteListArgs.notes).toEqual(notes);
+    });
+  });
+
+  describe('on error list', () => {
+    const error = 'error';
+
+    beforeEach((done) => {
+      noteRepository.returnErrorOnFindAll(error);
+      presenter.onPresentError = () => { done(); };
+      usecase.listNotes(presenter);
+    });
+
+    it('presents the error', () => {
+      expect(presenter.presentErrorArgs.error).toEqual(error);
+    });
+  });
 });
 
 class NoteRepositorySpy {
@@ -79,6 +109,22 @@ class NoteRepositorySpy {
       reject(error);
     });
   }
+
+  findAll() {
+    return this.findAllPromise;
+  }
+
+  returnSuccessOnFindAll(notes) {
+    this.findAllPromise = new Promise((resolve, reject) => {
+      resolve(notes);
+    });
+  }
+
+  returnErrorOnFindAll(error) {
+    this.findAllPromise = new Promise((resolve, reject) => {
+      reject(error);
+    });
+  }
 }
 
 class NotePresenterSpy {
@@ -86,6 +132,7 @@ class NotePresenterSpy {
     this.presentNoteArgs = {};
     this.presentErrorArgs = {};
     this.presentValidationArgs = {};
+    this.presentNoteListArgs = {};
   }
 
   presentNote(note) {
@@ -101,5 +148,10 @@ class NotePresenterSpy {
   presentValidation(errors) {
     this.presentValidationArgs.errors = errors;
     if (this.onPresentValidation) this.onPresentValidation(errors);
+  }
+
+  presentNoteList(notes) {
+    this.presentNoteListArgs.notes = notes;
+    if (this.onPresentNoteList) this.onPresentNoteList(notes);
   }
 }
