@@ -1,12 +1,12 @@
 import NoteUseCase from './note_use_case';
 
-const note = { title: 'title', content: 'content' };
-
+let note;
 let noteRepository;
 let presenter;
 let usecase;
 
 beforeEach(() => {
+  note = { title: 'title', content: 'content' };
   noteRepository = new NoteRepositorySpy();
   presenter = new NotePresenterSpy();
   usecase = new NoteUseCase(noteRepository);
@@ -15,7 +15,6 @@ beforeEach(() => {
 describe('createNote', () => {
   const createdNote = { id: 1, title: 'title', content: 'content' };
   const creationError = 'Error';
-
 
   describe('on success creation', () => {
     beforeEach((done) => {
@@ -44,6 +43,19 @@ describe('createNote', () => {
       expect(presenter.presentErrorArgs.error).toEqual(creationError);
     })
   });
+
+  describe("with invalid attributes", () => {
+    const validationErrors = { title: ['required'] };
+
+    beforeEach(() => {
+      note.title = '';
+      usecase.createNote(note, presenter);
+    });
+
+    it("presents the invalid fields and messages", () => {
+      expect(presenter.presentValidationArgs.errors).toEqual(validationErrors);
+    })
+  })
 });
 
 class NoteRepositorySpy {
@@ -73,6 +85,7 @@ class NotePresenterSpy {
   constructor() {
     this.presentNoteArgs = {};
     this.presentErrorArgs = {};
+    this.presentValidationArgs = {};
   }
 
   presentNote(note) {
@@ -83,5 +96,10 @@ class NotePresenterSpy {
   presentError(error) {
     this.presentErrorArgs.error = error;
     if (this.onPresentError) this.onPresentError(error);
+  }
+
+  presentValidation(errors) {
+    this.presentValidationArgs.errors = errors;
+    if (this.onPresentValidation) this.onPresentValidation(errors);
   }
 }
