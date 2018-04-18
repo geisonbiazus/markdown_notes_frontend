@@ -18,6 +18,10 @@ class InMemoryNoteRepository {
       resolve(this.notes);
     });
   }
+
+  clearNotes() {
+    this.notes = [];
+  }
 }
 
 export default InMemoryNoteRepository;

@@ -4,9 +4,10 @@ Feature: Create note
   I want create a new note
 
   Scenario: Create note
-    Given I have 0 notes
+    Given I have no notes
     When I create a new note
     And I set the "title" to "Note Title"
     And I set the "content" to "Note content"
     And I save the note
-    Then I should have 1 saved note
+    And I should have 1 saved note
+    Then I should see the created note
