@@ -1,7 +1,8 @@
 import { Before, Given, When, Then } from 'cucumber';
 import expect from 'jest-matchers'
 import InMemoryNoteRepository from '../../src/repositories/in_memory_note_repository';
-import NoteUseCase from '../../src/use_cases/note_use_case';
+import NoteUseCase from '../../src/markdown_notes/note_use_case';
+import Note from '../../src/markdown_notes/note';
 
 let repository;
 let note;
@@ -19,7 +20,7 @@ Given('I have no notes', function () {
 });
 
 When('I create a new note', function () {
-  note = {};
+  note = new Note();
 });
 
 When('I set the {string} to {string}', function (field, value) {

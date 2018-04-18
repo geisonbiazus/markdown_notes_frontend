@@ -1,4 +1,5 @@
 import NoteUseCase from './note_use_case';
+import Note from './note';
 
 let note;
 let noteRepository;
@@ -6,14 +7,14 @@ let presenter;
 let usecase;
 
 beforeEach(() => {
-  note = { title: 'title', content: 'content' };
+  note = new Note('title', 'content');
   noteRepository = new NoteRepositorySpy();
   presenter = new NotePresenterSpy();
   usecase = new NoteUseCase(noteRepository);
 });
 
 describe('createNote', () => {
-  const createdNote = { id: 1, title: 'title', content: 'content' };
+  const createdNote =  new Note('title', 'content', 1);
   const creationError = 'Error';
 
   describe('on success creation', () => {

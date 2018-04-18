@@ -3,7 +3,7 @@ Feature: Create note
   As a person who forgets
   I want create a new note
 
-  Scenario: Create note
+  Scenario: Create note with valid parameters
     Given I have no notes
     When I create a new note
     And I set the "title" to "Note Title"
