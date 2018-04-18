@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "babel-cli": "^6.26.0",
     "bootstrap": "^4.0.0",
     "cucumber": "^4.2.1",
     "react": "^16.3.1",
@@ -13,7 +14,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "cucumber": "cucumber-js",
+    "cucumber": "cucumber-js --require-module babel-register",
     "eject": "react-scripts eject"
   }
 }

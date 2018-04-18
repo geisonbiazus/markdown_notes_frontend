@@ -1,4 +1,4 @@
-class NoteRepository {
+class InMemoryNoteRepository {
   constructor() {
     this.lastId = 0;
     this.notes = [];
@@ -7,7 +7,7 @@ class NoteRepository {
   create(note) {
     return new Promise((resolve) => {
       const id = ++this.lastId;
-      const createdNote = {id: id, ...note};
+      const createdNote = Object.assign({id: id}, note);
       this.notes.push(createdNote);
       resolve(createdNote);
     });
@@ -20,4 +20,4 @@ class NoteRepository {
   }
 }
 
-export default NoteRepository;
+export default InMemoryNoteRepository;

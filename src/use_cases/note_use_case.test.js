@@ -127,7 +127,7 @@ class NoteRepositorySpy {
   }
 }
 
-class NotePresenterSpy {
+export class NotePresenterSpy {
   constructor() {
     this.presentNoteArgs = {};
     this.presentErrorArgs = {};
