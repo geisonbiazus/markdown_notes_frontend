@@ -3,6 +3,7 @@ import expect from 'jest-matchers'
 import InMemoryNoteRepository from '../../src/repositories/in_memory_note_repository';
 import NoteUseCase from '../../src/markdown_notes/note_use_case';
 import Note from '../../src/markdown_notes/note';
+import { NotePresenterSpy } from '../../src/testing/doubles/note_presenter_doubles';
 
 let repository;
 let note;
@@ -41,19 +42,7 @@ Then('I should have {int} saved note', function (count, done) {
 
 Then('I should see the created note', function (done) {
   repository.findAll().then((notes) => {
-    expect(presenter.presentedNote).toEqual(notes[notes.length-1]);
+    expect(presenter.presentNoteArgs.note).toEqual(notes[notes.length-1]);
     done();
   })
 });
-
-
-class NotePresenterSpy {
-  constructor(done) {
-    this.done = done;
-  }
-
-  presentNote(note) {
-    this.presentedNote = note;
-    this.done();
-  }
-}

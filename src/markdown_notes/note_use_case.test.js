@@ -1,5 +1,6 @@
 import NoteUseCase from './note_use_case';
 import Note from './note';
+import { NotePresenterSpy } from '../testing/doubles/note_presenter_doubles';
 
 let note;
 let noteRepository;
@@ -19,7 +20,7 @@ describe('createNote', () => {
 
   describe('on success creation', () => {
     beforeEach((done) => {
-      presenter.onPresentNote = () => { done(); };
+      presenter.done = done;
       noteRepository.returnSuccessOnCreate(createdNote);
       usecase.createNote(note, presenter);
     });
@@ -35,7 +36,7 @@ describe('createNote', () => {
 
   describe('on creation fail', () => {
     beforeEach((done) => {
-      presenter.onPresentError = () => { done(); };
+      presenter.done = done;
       noteRepository.returnErrorOnCreate(creationError);
       usecase.createNote(note, presenter);
     });
@@ -65,7 +66,7 @@ describe('listNotes', () => {
 
     beforeEach((done) => {
       noteRepository.returnSuccessOnFindAll(notes);
-      presenter.onPresentNoteList = () => { done(); };
+      presenter.done = done;
       usecase.listNotes(presenter);
     });
 
@@ -79,7 +80,7 @@ describe('listNotes', () => {
 
     beforeEach((done) => {
       noteRepository.returnErrorOnFindAll(error);
-      presenter.onPresentError = () => { done(); };
+      presenter.done = done;
       usecase.listNotes(presenter);
     });
 
@@ -125,34 +126,5 @@ class NoteRepositorySpy {
     this.findAllPromise = new Promise((resolve, reject) => {
       reject(error);
     });
-  }
-}
-
-export class NotePresenterSpy {
-  constructor() {
-    this.presentNoteArgs = {};
-    this.presentErrorArgs = {};
-    this.presentValidationArgs = {};
-    this.presentNoteListArgs = {};
-  }
-
-  presentNote(note) {
-    this.presentNoteArgs.note = note;
-    if (this.onPresentNote) this.onPresentNote(note);
-  }
-
-  presentError(error) {
-    this.presentErrorArgs.error = error;
-    if (this.onPresentError) this.onPresentError(error);
-  }
-
-  presentValidation(errors) {
-    this.presentValidationArgs.errors = errors;
-    if (this.onPresentValidation) this.onPresentValidation(errors);
-  }
-
-  presentNoteList(notes) {
-    this.presentNoteListArgs.notes = notes;
-    if (this.onPresentNoteList) this.onPresentNoteList(notes);
   }
 }
