@@ -8,11 +8,15 @@ class InMemoryNoteRepository {
 
   create(note) {
     return new Promise((resolve) => {
-      const id = ++this.lastId;
-      const createdNote = new Note(note.title, note.content, id);
-      this.notes.push(createdNote);
-      resolve(createdNote);
+      resolve(this.createSync(note));
     });
+  }
+
+  createSync(note) {
+    const id = ++this.lastId;
+    const createdNote = new Note(note.title, note.content, id);
+    this.notes.push(createdNote);
+    return createdNote;
   }
 
   findAll() {

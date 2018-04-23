@@ -46,3 +46,26 @@ Then('I should see the created note', function (done) {
     done();
   })
 });
+
+When('I request to see the notes list', function (done) {
+  presenter.done = done
+  usecase.listNotes(presenter);
+});
+
+Then('I should see {int} notes', function (count) {
+  expect(presenter.presentNoteListArgs.notes.length).toEqual(count);
+});
+
+Given('I have the following notes', function ({ rawTable }) {
+  rawTable.forEach((item, i) => {
+    if (i == 0) return;
+    repository.createSync(new Note(item[0], item[1]));
+  });
+});
+
+Then('I should see the following notes', function ( { rawTable }) {
+  presenter.presentNoteListArgs.notes.forEach((note, i) => {
+    expect(rawTable[i+1][0]).toEqual(note.title);
+    expect(rawTable[i+1][1]).toEqual(note.content);
+  });
+});
