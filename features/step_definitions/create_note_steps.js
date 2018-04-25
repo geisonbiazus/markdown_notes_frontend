@@ -33,11 +33,19 @@ When('I save the note', function (done) {
   usecase.createNote(note, presenter);
 });
 
-Then('I should have {int} saved note', function (count, done) {
+function checkSavedNotes(repository, count, done) {
   repository.findAll().then((notes) => {
     expect(notes.length).toEqual(count);
     done();
-  })
+  });
+}
+
+Then('I should have {int} saved note', function (count, done) {
+  checkSavedNotes(repository, count, done);
+});
+
+Then('I should have {int} saved notes', function (count, done) {
+  checkSavedNotes(repository, count, done);
 });
 
 Then('I should see the created note', function (done) {
@@ -67,5 +75,12 @@ Then('I should see the following notes', function ( { rawTable }) {
   presenter.presentNoteListArgs.notes.forEach((note, i) => {
     expect(rawTable[i+1][0]).toEqual(note.title);
     expect(rawTable[i+1][1]).toEqual(note.content);
+  });
+});
+
+Then('I should see the validation error', function ({ rawTable }) {
+  rawTable.forEach((error, i) => {
+    if (i == 0) return;
+    expect(presenter.presentValidationArgs.errors[error[0]].includes(error[1])).toBe(true);
   });
 });
