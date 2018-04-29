@@ -3,8 +3,9 @@ class NotePresenter {
     this.context = context;
   }
   //
-  // presentNote(note) {
-  // }
+  presentNote(note) {
+    this.context.noteUseCase.listNotes(this);    
+  }
   //
   // presentError(error) {
   // }
