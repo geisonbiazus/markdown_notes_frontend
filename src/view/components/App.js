@@ -7,18 +7,16 @@ import Note from '../../markdown_notes/note';
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { notes: [], note: { title: "Note Title", content: "Note Content" } };
+    this.state = { notes: [], note: new Note("Note Title", "Note Content") };
     this.noteUseCase = props.noteUseCase;
     this.presenter = new NotePresenter(this);
     this.noteUseCase.listNotes(this.presenter);
   }
 
-  onTitleChange(event) {
-    this.setState({note: { ...this.state.note, title: event.target.value }});
-  }
-
-  onContentChange(event) {
-    this.setState({note: { ...this.state.note, content: event.target.value, }});
+  setNoteAttribute(key, value) {
+    const note = this.state.note.duplicate();
+    note[key] = value;
+    this.setState({note: note});
   }
 
   onFormSubmit(event) {
@@ -33,8 +31,8 @@ class App extends Component {
           notes={this.state.notes}
           />
         <NoteForm note={this.state.note}
-          onTitleChange={this.onTitleChange.bind(this)}
-          onContentChange={this.onContentChange.bind(this)}
+          onTitleChange={event => this.setNoteAttribute('title', event.target.value)}
+          onContentChange={event => this.setNoteAttribute('content', event.target.value)}
           onFormSubmit={this.onFormSubmit.bind(this)}
           />
       </div>

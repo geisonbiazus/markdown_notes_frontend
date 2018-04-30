@@ -4,6 +4,10 @@ class Note {
     this.content = content;
     this.id = id;
   }
+
+  duplicate() {
+    return new Note(this.title, this.content, this.id);
+  }
 }
 
 export default Note;
