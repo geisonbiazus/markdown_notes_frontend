@@ -1,10 +1,10 @@
 class NotePresenter {
-  constructor(context) {
-    this.context = context;
+  constructor(stateManager) {
+    this.stateManager = stateManager;
   }
   //
   presentNote(note) {
-    this.context.noteUseCase.listNotes(this);    
+    this.stateManager.context.noteUseCase.listNotes(this);
   }
   //
   // presentError(error) {
@@ -14,7 +14,7 @@ class NotePresenter {
   // }
 
   presentNoteList(notes) {
-    this.context.setState({notes});
+    this.stateManager.setNotes(notes);
   }
 }
 
