@@ -4,7 +4,7 @@ class NotePresenter {
   }
   //
   presentNote(note) {
-    this.stateManager.context.noteUseCase.listNotes(this);
+    // this.stateManager.context.noteUseCase.listNotes(this);
   }
   //
   // presentError(error) {

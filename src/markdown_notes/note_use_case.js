@@ -9,6 +9,7 @@ class NoteUseCase {
 
     this.noteRepository.create(note).then((createdNote) => {
       presenter.presentNote(createdNote);
+      this.listNotes(presenter);
     }).catch((error) => {
       presenter.presentError(error);
     });

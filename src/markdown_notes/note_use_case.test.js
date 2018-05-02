@@ -17,11 +17,16 @@ beforeEach(() => {
 describe('createNote', () => {
   const createdNote =  new Note('title', 'content', 1);
   const creationError = 'Error';
+  const notes = [ createdNote ];
 
   describe('on success creation', () => {
     beforeEach((done) => {
-      presenter.done = done;
+      // expect done to be called twice
+      presenter.done = () => {
+        presenter.done = done;
+      };
       noteRepository.returnSuccessOnCreate(createdNote);
+      noteRepository.returnSuccessOnFindAll(notes);
       usecase.createNote(note, presenter);
     });
 
@@ -31,6 +36,10 @@ describe('createNote', () => {
 
     it('presents the result', () => {
       expect(presenter.presentNoteArgs.note).toEqual(createdNote);
+    });
+
+    it('refreshes the note list', () => {
+      expect(presenter.presentNoteListArgs.notes).toEqual(notes);
     });
   });
 

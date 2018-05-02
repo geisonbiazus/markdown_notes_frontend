@@ -11,6 +11,10 @@ Feature: Create note
     And I save the note
     Then I should have 1 saved note
     And I should see the created note
+    And I should see the following notes
+      | title  | content          |
+      | Note Title | Note content |
+
 
   Scenario: Create note with invalid parameters
     Given I have no notes
