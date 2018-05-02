@@ -2,9 +2,10 @@ class NotePresenter {
   constructor(stateManager) {
     this.stateManager = stateManager;
   }
-  //
+
   presentNote(note) {
-    // this.stateManager.context.noteUseCase.listNotes(this);
+    this.stateManager.setNote(note);
+    this.stateManager.setEditing(false);
   }
   //
   // presentError(error) {
