@@ -3,7 +3,7 @@ import Note from '../markdown_notes/note';
 class AppState {
   constructor(context) {
     this.context = context
-    this.context.state = { notes: [], note: new Note("Note Title", "Note Content") };
+    this.context.state = { notes: [], note: new Note() };
   }
 
   setState(state) {

@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 
 class NoteForm extends Component {
+  onFormSubmit(event) {
+    event.preventDefault();
+    this.props.onFormSubmit(event);
+  }
+
   render() {
     const note = this.props.note;
 
