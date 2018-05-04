@@ -3,7 +3,7 @@ import Note from '../markdown_notes/note';
 class AppState {
   constructor(context) {
     this.context = context
-    this.context.state = { notes: [], note: new Note() };
+    this.context.state = { notes: [], note: new Note(), editing: false };
   }
 
   setState(state) {
@@ -20,7 +20,7 @@ class AppState {
     this.setState({ note });
   }
 
-  AddNewNote() {
+  addNewNote() {
     this.setNote(new Note());
     this.setEditing(true);
   }
@@ -32,6 +32,19 @@ class AppState {
   setEditing(editing) {
     this.setState({ editing: editing });
   }
+
+  getNotes() {
+    return this.context.state.notes;
+  }
+
+  getNote() {
+    return this.context.state.note;
+  }
+
+  isEditing() {
+    return this.context.state.editing;
+  }
+
 }
 
 export default AppState;

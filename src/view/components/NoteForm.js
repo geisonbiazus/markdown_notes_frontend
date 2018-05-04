@@ -11,7 +11,7 @@ class NoteForm extends Component {
 
     return (
       <section>
-        <form onSubmit={this.props.onFormSubmit}>
+        <form onSubmit={event => this.onFormSubmit(event)}>
           <p>
             <input type="text" value={note.title} onChange={this.props.onTitleChange} />
           </p>
